@@ -38,7 +38,8 @@ module Documentation
     # Set the permalink for this page
     #
     def set_permalink
-      proposed_permalink = self.title.parameterize
+      require 'babosa'
+      proposed_permalink = self.title.downcase.to_slug.transliterate(:russian).to_ruby_method.to_s
       index = 1
       while self.permalink.blank?
         if self.class.where(:permalink => proposed_permalink, :parent_id => self.parent_id).exists?
